@@ -1,0 +1,11 @@
+FROM node:24-bookworm
+ENV DEBIAN_FRONTEND=noninteractive NODE_OPTIONS=--max-old-space-size=4096
+RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates git python3 python3-venv python3-pip build-essential pkg-config ffmpeg \
+    && rm -rf /var/lib/apt/lists/*
+COPY . /src
+WORKDIR /src
+RUN npm install --global corepack@0.34.1 && corepack enable && corepack prepare pnpm@10.15.0 --activate
+RUN pnpm install --frozen-lockfile
+RUN pnpm run build
+RUN cd brain-landing && pnpm install --frozen-lockfile && pnpm run build
+CMD ["bash"]
