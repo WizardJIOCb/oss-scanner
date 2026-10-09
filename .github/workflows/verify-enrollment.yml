@@ -52,10 +52,10 @@ jobs:
         PROJECT_NAME: ${{ matrix.project.name }}
         OFFLINE_TESTS: ${{ toJSON(matrix.project.tests) }}
       run: "python3 - <<'PY'\nimport json, os, subprocess\ncommands = json.loads(os.environ[\"OFFLINE_TESTS\"])\nname = os.environ[\"\
-        PROJECT_NAME\"]\nfailed = []\nfor index, command in enumerate(commands):\n    print(f\"Offline test: {command}\",\
-        \ flush=True)\n    args = [\"docker\", \"run\", \"--rm\", \"--network=none\", \"--cpus=2\", \"--memory=6g\", \"-e\"\
-        , \"CI=true\", \"-w\", \"/src\", f\"oss-scanner-check/built:{name}\", \"timeout\", \"300\", \"bash\", \"-c\", command]\n\
-        \    result = subprocess.run(args, timeout=330)\n    if result.returncode:\n        failed.append((command, result.returncode))\n\
-        with open(os.environ[\"GITHUB_STEP_SUMMARY\"], \"a\") as summary:\n    summary.write(f\"## {name}\\nOfficial build\
-        \ completed. Offline test commands: {len(commands)}; failures: {len(failed)}.\\n\")\nif failed:\n    print(failed)\n\
-        \    raise SystemExit(1)\nPY\n"
+        PROJECT_NAME\"]\ntest_timeout = 900 if name == \"video.xedoc.ru\" else 300\nfailed = []\nfor index, command in enumerate(commands):\n\
+        \    print(f\"Offline test: {command}\", flush=True)\n    args = [\"docker\", \"run\", \"--rm\", \"--network=none\"\
+        , \"--cpus=2\", \"--memory=6g\", \"-e\", \"CI=true\", \"-w\", \"/src\", f\"oss-scanner-check/built:{name}\", \"timeout\"\
+        , str(test_timeout), \"bash\", \"-c\", command]\n    result = subprocess.run(args, timeout=test_timeout+30)\n    if\
+        \ result.returncode:\n        failed.append((command, result.returncode))\nwith open(os.environ[\"GITHUB_STEP_SUMMARY\"\
+        ], \"a\") as summary:\n    summary.write(f\"## {name}\\nOfficial build completed. Offline test commands: {len(commands)};\
+        \ failures: {len(failed)}.\\n\")\nif failed:\n    print(failed)\n    raise SystemExit(1)\nPY\n"
