@@ -14,7 +14,8 @@ name: Verify OSS enrollment environments
           run test"]},{"name":"civi.xedoc.ru","branch":"enroll/civi-xedoc-ru","tests":["npm run test"]},{"name":"cloud.xedoc.ru","branch":"enroll/cloud-xedoc-ru","tests":[]},{"name":"codex.xedoc.ru","branch":"enroll/codex-xedoc-ru","tests":[]},{"name":"colors.xedoc.ru","branch":"enroll/colors-xedoc-ru","tests":["npm
           run test"]},{"name":"doom.xedoc.ru","branch":"enroll/doom-xedoc-ru","tests":[]},{"name":"eng.xedoc.ru","branch":"enroll/eng-xedoc-ru","tests":["npm
           run test"]},{"name":"hands.xedoc.ru","branch":"enroll/hands-xedoc-ru","tests":[]},{"name":"hermes.xedoc.ru","branch":"enroll/hermes-xedoc-ru","tests":["pytest
-          -q tests/unit --maxfail=5"]},{"name":"icq.xedoc.ru","branch":"enroll/icq-xedoc-ru","tests":[]},{"name":"images.xedoc.ru","branch":"enroll/images-xedoc-ru","tests":[]},{"name":"kick.xedoc.ru","branch":"enroll/kick-xedoc-ru","tests":[]},{"name":"models.xedoc.ru","branch":"enroll/models-xedoc-ru","tests":["go
+          -q tests/agent/test_redact.py tests/cli/test_worktree_security.py tests/gateway/test_session_boundary_security_state.py
+          --maxfail=5"]},{"name":"icq.xedoc.ru","branch":"enroll/icq-xedoc-ru","tests":[]},{"name":"images.xedoc.ru","branch":"enroll/images-xedoc-ru","tests":[]},{"name":"kick.xedoc.ru","branch":"enroll/kick-xedoc-ru","tests":[]},{"name":"models.xedoc.ru","branch":"enroll/models-xedoc-ru","tests":["go
           test ./demo","ctest --test-dir build-cpu --output-on-failure -R \"kimodo-(diffusion|converter)-test\""]},{"name":"music.xedoc.ru","branch":"enroll/music-xedoc-ru","tests":[]},{"name":"needle.xedoc.ru","branch":"enroll/needle-xedoc-ru","tests":["npm
           run test"]},{"name":"papper.xedoc.ru","branch":"enroll/papper-xedoc-ru","tests":[]},{"name":"projects.xedoc.ru","branch":"enroll/projects-xedoc-ru","tests":[]},{"name":"quest.xedoc.ru","branch":"enroll/quest-xedoc-ru","tests":["npm
           run test"]},{"name":"rage.xedoc.ru","branch":"enroll/rage-xedoc-ru","tests":[]},{"name":"supadrupapp.xedoc.ru","branch":"enroll/supadrupapp-xedoc-ru","tests":[]},{"name":"tekken.xedoc.ru","branch":"enroll/tekken-xedoc-ru","tests":[]},{"name":"tekkenf.xedoc.ru","branch":"enroll/tekkenf-xedoc-ru","tests":[]},{"name":"tg.xedoc.ru","branch":"enroll/tg-xedoc-ru","tests":[]},{"name":"top.xedoc.ru","branch":"enroll/top-xedoc-ru","tests":[]},{"name":"video.xedoc.ru","branch":"enroll/video-xedoc-ru","tests":["npm
@@ -22,7 +23,7 @@ name: Verify OSS enrollment environments
 permissions:
   contents: read
 concurrency:
-  group: oss-enrollment-verification
+  group: oss-enrollment-verification-${{ github.run_id }}
   cancel-in-progress: false
 jobs:
   verify:
